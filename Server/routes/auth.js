@@ -1,35 +1,37 @@
-// routes/auth.js
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const User = require('../Models/User'); // Import the User model
-require('dotenv').config();
+// const express = require('express');
+// const jwt = require('jsonwebtoken');
+// require('dotenv').config();
 
-const router = express.Router();
+// const router = express.Router();
 
-// Generate JWT token route
-router.post('/generateToken', (req, res) => {
-  let jwtSecretKey = process.env.JWT_SECRET_KEY;
-  let data = { time: Date(), userId: 12 };
-  const token = jwt.sign(data, jwtSecretKey);
-  res.send(token);
-});
+// router.get('/validateToken', (req, res) => {
+//   const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
-// Validate JWT token route
-router.get('/validateToken', (req, res) => {
-  let tokenHeaderKey = process.env.TOKEN_HEADER_KEY;
-  let jwtSecretKey = process.env.JWT_SECRET_KEY;
+//   try {
+  
+//     const token = req.header('Authorization')?.split(' ')[1];
+//     if (!token) return res.status(401).send('Token not provided');
 
-  try {
-    const token = req.header(tokenHeaderKey);
-    const verified = jwt.verify(token, jwtSecretKey);
-    if (verified) {
-      return res.send('Successfully Verified');
-    } else {
-      return res.status(401).send('Access Denied');
-    }
-  } catch (error) {
-    return res.status(401).send('Access Denied');
-  }
-});
+  
+//     const verified = jwt.verify(token, jwtSecretKey);
 
-module.exports = router;
+//     console.log("Verified Payload: ", verified);
+
+//     if (verified) {
+//       return res.send('Successfully Verified');
+//     } else {
+//       return res.status(401).send('Access Denied');
+//     }
+//   } catch (error) {
+  
+//     if (error.name === 'TokenExpiredError') {
+//       console.log('Token expired at:', error.expiredAt);
+//       return res.status(401).send('Token expired');
+//     }
+
+//     console.log("Token Verification Failed: ", error.message);
+//     return res.status(401).send('Access Denied');
+//   }
+// });
+
+// module.exports = router;

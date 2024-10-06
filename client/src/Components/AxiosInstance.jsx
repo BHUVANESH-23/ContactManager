@@ -1,4 +1,3 @@
-// Axios setup with interceptors for handling access token refresh
 import axios from 'axios';
 
 // Create Axios instance
@@ -8,7 +7,7 @@ const axiosInstance = axios.create({
 
 // Request interceptor to add Authorization header
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem('token');
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
@@ -18,34 +17,44 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 // Response interceptor to handle expired access token
-axiosInstance.interceptors.response.use((response) => {
-  return response;
-}, async (error) => {
-  const originalRequest = error.config;
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
 
-  // If the access token has expired
-  if (error.response.status === 401 && !originalRequest._retry) {
-    originalRequest._retry = true;
-
-    // Try to refresh the access token
-    try {
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       const refreshToken = localStorage.getItem('refreshToken');
-      const res = await axios.post('http://localhost:5000/api/refresh-token', { refreshToken });
-      
-      if (res.status === 200) {
-        // Update local storage with new access token
-        localStorage.setItem('accessToken', res.data.accessToken);
 
-        // Retry the original request with the new token
-        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.data.accessToken}`;
-        return axiosInstance(originalRequest);
+      try {
+        const res = await axios.post('http://localhost:5000/api/login/refresh-token', { refreshToken });
+        if (res.status === 200) {
+          const newAccessToken = res.data.accessToken;
+          localStorage.setItem('token', newAccessToken); // Save the new token
+
+          // Update the Authorization header with the new access token
+          axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+
+          // Retry the original request with the new access token
+          originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+          return axiosInstance(originalRequest);
+        }
+      } catch (err) {
+        // Handle refresh token failure
+        console.error('Refresh token expired or invalid', err);
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('userEmail');
+
+        window.location.href = '/login'; // Redirect to login
       }
-    } catch (err) {
-      console.error('Failed to refresh token', err);
     }
-  }
 
-  return Promise.reject(error);
-});
+    return Promise.reject(error);
+  }
+);
+
 
 export default axiosInstance;

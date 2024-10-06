@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ForgotPassword from './ForgotPassword'; // Import ForgotPassword
-import './CSS/BackgroundImage.css'
+import './CSS/BackgroundImage.css';
 
 const Login = () => {
   const [input, setInput] = useState({
     email: '',
     password: ''
   });
-  const [pass, setPass] = useState(false); // Existing pass state
-  const [errorMessage, setErrorMessage] = useState(''); // Add state for error message
+  const [pass, setPass] = useState(false); // State for "Forgot Password"
+  const [errorMessage, setErrorMessage] = useState(''); // State for error messages
   const navigate = useNavigate();
 
   const handleSignup = () => {
@@ -26,17 +26,21 @@ const Login = () => {
     try {
       const res = await axios.post("http://localhost:5000/api/login", input);
       if (res.status === 200) {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('userEmail', input.email); 
+        // Store both access token and refresh token
+        localStorage.setItem('token', res.data.accessToken);
+        localStorage.setItem('refreshToken', res.data.refreshToken);
+        localStorage.setItem('userEmail', input.email); // Optionally store user email
 
+        // Navigate to the protected route (e.g., Home page)
         navigate('/');
-      } 
-      } catch (err) {
-        if (err.response ) {
-          // Set error message if 404 is encountered
-          setErrorMessage(err.response.data.message);
-        } else {
-        console.error(err);
+      }
+    } catch (err) {
+      if (err.response) {
+        // Set the error message based on the backend response
+        setErrorMessage(err.response.data.message);
+      } else {
+        console.error('Error during login:', err);
+        setErrorMessage('An error occurred. Please try again.');
       }
     }
   };
@@ -84,7 +88,7 @@ const Login = () => {
                 />
               </div>
               <div className="text-right mb-5">
-                <button type='button' onClick={() => setPass(true)} className="text-sm text-teal-500 hover:underline">Forgot password?</button>
+                <button type="button" onClick={() => setPass(true)} className="text-sm text-teal-500 hover:underline">Forgot password?</button>
               </div>
               <button
                 type="submit"

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CiSearch } from "react-icons/ci";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { FaGoogle } from "react-icons/fa";
 
 const Home = () => {
   const [contacts, setContacts] = useState([]);
@@ -14,30 +15,38 @@ const Home = () => {
   });
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(()=>{
-    const usermail = localStorage.getItem('userEmail')
+  useEffect(() => {
+    const usermail = localStorage.getItem('userEmail');
     if (usermail) {
       setFormData((prevData) => ({ ...prevData, userMail: usermail })); // Set the email
     }
-  },[])
+  }, []);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
+  const handleGoogle = () => {
+    const userMail = localStorage.getItem('userEmail');
+
+    if (!userMail) {
+      console.error('User email not found in localStorage.');
+      return;
+    }
+    window.location.href = `http://localhost:5000/api/google-contacts?userMail=${encodeURIComponent(userMail)}`;
+  };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    
 
     try {
-
       const response = await axios.post('http://localhost:5000/api/contact', formData);
       console.log('Contact added:', response.data);
-
       setContacts([...contacts, { ...formData, id: response.data.id }]);
-
       setFormData({ id: '', name: '', phoneNumber: '', email: '' });
       window.location.reload();
     } catch (error) {
@@ -59,15 +68,17 @@ const Home = () => {
               <li>
                 <Link to={'/savedContacts'} className="hover:underline text-[#1ba098] transition duration-300 ease-in-out hover:text-white">Saved Contacts</Link>
               </li>
-              <li>
-                <Link to={'/savedContacts'} className="hover:underline text-[#1ba098] transition duration-300 ease-in-out hover:text-white">Contact List</Link>
+              <li className="flex items-center">
+                <button onClick={handleGoogle} className="mb-2 hover:underline text-[#1ba098] transition duration-300 ease-in-out hover:text-white flex items-center">
+                  <FaGoogle className="mr-1" />
+                  Add
+                </button>
               </li>
             </ul>
             <div className="relative">
-              <CiSearch className="absolute left-3 top-2 w-6 h-6 text-[#1ba098]" /> {/* Position the search icon */}
+              <CiSearch className="absolute left-3 top-2 w-6 h-6 text-[#1ba098]" />
               <input
                 type="text"
-                // placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearchChange}
                 className="border border-gray-300 rounded-lg p-2 pl-10 pr-2 text-[#1ba098] transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#1ba098] shadow-md"
@@ -94,7 +105,7 @@ const Home = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="mb-4 p-3 border border-gray-300 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#051622] shadow-md hover:shadow-lg"
+              className="mb-4 p-3 border border-gray-300 rounded-lg"
             />
             <input
               type="text"
@@ -103,7 +114,7 @@ const Home = () => {
               value={formData.phoneNumber}
               onChange={handleChange}
               required
-              className="mb-4 p-3 border border-gray-300 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#051622] shadow-md hover:shadow-lg"
+              className="mb-4 p-3 border border-gray-300 rounded-lg"
             />
             <input
               type="email"
@@ -112,11 +123,11 @@ const Home = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mb-4 p-3 border border-gray-300 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#051622] shadow-md hover:shadow-lg"
+              className="mb-4 p-3 border border-gray-300 rounded-lg"
             />
             <button
               type="submit"
-              className="bg-[#232628] hover:bg-[#101212] text-[#1ba098] px-5 py-2 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-100"
+              className="bg-[#232628] hover:bg-[#101212] text-[#1ba098] px-5 py-2 rounded-lg"
             >
               Save
             </button>

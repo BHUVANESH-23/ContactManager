@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { IoPersonOutline } from "react-icons/io5";
 
 const SavedContacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -33,7 +34,13 @@ const SavedContacts = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {contacts.map(contact => (
             <div key={contact._id} className="bg-[#deb992] p-4 rounded-lg shadow-md hover:shadow-lg">
-              <h3 className="text-lg font-bold text-[#051622]">{contact.name}</h3>
+              {/* Flex container for icon and text */}
+              <div className="flex items-center mb-2">
+                {/* Icon aligned and sized */}
+                <IoPersonOutline className="text-[#051622]" size={24} />
+                {/* Spacing between icon and name */}
+                <h3 className="text-lg font-bold text-[#051622] ml-2">{contact.name}</h3>
+              </div>
               <p className="text-[#051622]"><strong>Phone:</strong> {contact.phoneNumber}</p>
               <p className="text-[#051622]"><strong>Email:</strong> {contact.email}</p>
             </div>
