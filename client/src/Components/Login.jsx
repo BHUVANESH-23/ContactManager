@@ -51,58 +51,59 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen Image bg-gray-200 flex flex-col justify-center sm:py-10">
-      <div className="relative py-2 sm:max-w-xl sm:mx-auto">
-        <div className="px-2 py-2 bg-white shadow-lg rounded-3xl sm:p-16 animate-fade-in">
-          <div className="max-w-md mx-auto">
-            <div className="text-center font-semibold text-xl mb-4 animate-slide-down">Login</div>
+    <div className="bg-[#051622] min-h-screen flex flex-col items-center justify-center transition duration-300 ease-in-out py-5">
+      <div className="relative py-2 sm:max-w-md w-full mx-auto">
+        <div className="px-4 py-5 bg-[#deb992] shadow-lg rounded-lg sm:p-10 animate-fade-in">
+          <div className="text-center font-semibold text-2xl mb-6 text-[#051622]">Login</div>
 
-            {/* Display error message if credentials are wrong */}
-            {errorMessage && (
-              <div className="text-center text-red-500 mb-4">
-                {errorMessage}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-              <div className="mb-5">
-                <label className="block text-sm font-medium text-gray-700">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
-                  placeholder="Enter your email"
-                  onChange={handleChange}
-                  value={input.email}
-                />
-              </div>
-              <div className="mb-5">
-                <label className="block text-sm font-medium text-gray-700">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
-                  placeholder="Enter your password"
-                  onChange={handleChange}
-                  value={input.password}
-                />
-              </div>
-              <div className="text-right mb-5">
-                <button type="button" onClick={() => setPass(true)} className="text-sm text-teal-500 hover:underline">Forgot password?</button>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-teal-500 text-white py-2 px-4 rounded-md shadow hover:bg-teal-600 transition-transform duration-300 hover:scale-105"
-              >
-                Login
-              </button>
-            </form>
-            <div className="mt-6 text-center">
-              <p className="text-sm">
-                Don't have an account?
-                <button onClick={handleSignup} className="text-teal-500 hover:underline"> &nbsp; Sign Up</button>
-              </p>
+          {/* Display error message if credentials are wrong */}
+          {errorMessage && (
+            <div className="text-center text-[#1ba098] mb-4">
+              {errorMessage}
             </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="flex flex-col">
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-[#051622]">Email</label>
+              <input
+                type="email"
+                name="email"
+                className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1ba098] focus:border-[#1ba098]"
+                placeholder="Enter your email"
+                onChange={handleChange}
+                value={input.email}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-[#051622]">Password</label>
+              <input
+                type="password"
+                name="password"
+                className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1ba098] focus:border-[#1ba098]"
+                placeholder="Enter your password"
+                onChange={handleChange}
+                value={input.password}
+              />
+            </div>
+            <div className="text-right mb-4">
+              <button type="button" onClick={() => setPass(true)} className="text-sm text-[#1ba098] hover:underline">
+                Forgot password?
+              </button>
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-[#232628] text-[#1ba098] py-2 px-4 rounded-md shadow hover:bg-[#101212] transition-transform duration-300 hover:scale-105"
+            >
+              Login
+            </button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-[#051622]">
+              Don't have an account?
+              <button onClick={handleSignup} className="text-[#1ba098] hover:underline">&nbsp; Sign Up</button>
+            </p>
           </div>
         </div>
       </div>

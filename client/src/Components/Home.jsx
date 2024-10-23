@@ -14,11 +14,12 @@ const Home = () => {
     userMail: ''
   });
   const [searchTerm, setSearchTerm] = useState('');
+  const [message, setMessage] = useState(''); // Initialize as an empty string
 
   useEffect(() => {
     const usermail = localStorage.getItem('userEmail');
     if (usermail) {
-      setFormData((prevData) => ({ ...prevData, userMail: usermail })); // Set the email
+      setFormData((prevData) => ({ ...prevData, userMail: usermail }));
     }
   }, []);
 
@@ -37,20 +38,29 @@ const Home = () => {
     window.location.href = `http://localhost:5000/api/google-contacts?userMail=${encodeURIComponent(userMail)}`;
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
 
     try {
       const response = await axios.post('http://localhost:5000/api/contact', formData);
-      console.log('Contact added:', response.data);
+      if (response.status === 201) {
+        setMessage('Contact saved successfully!'); // Set success message
+      }
       setContacts([...contacts, { ...formData, id: response.data.id }]);
-      setFormData({ id: '', name: '', phoneNumber: '', email: '' });
-      window.location.reload();
+      setFormData({
+        id: '',
+        name: '',
+        phoneNumber: '',
+        email: '',
+        userMail: formData.userMail // Preserve userMail
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     } catch (error) {
       console.error('Error adding contact:', error);
+      setMessage('Error saving contact. Please try again.'); // Set error message
     }
   };
 
@@ -90,6 +100,11 @@ const Home = () => {
 
       <div className="container mx-auto px-5 py-5 mt-20 max-w-4xl">
         <div id="contact-form-section" className="mb-6 p-5 bg-[#deb992] rounded-lg shadow-lg">
+          {message && ( // Only show message if it's not empty
+            <div className='text-[#1ba098] mb-4'>
+              {message}
+            </div>
+          )}
           <h2 className="text-xl font-semibold mb-4 text-[#051622]">Add Contact</h2>
           <form id="contact-form" onSubmit={handleSubmit} className="flex flex-col">
             <input
@@ -139,3 +154,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+// setFormData({ id: '', name: '', phoneNumber: '', email: '' });

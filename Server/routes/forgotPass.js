@@ -35,29 +35,24 @@ router.post('/', async (req, res) => {
 router.post('/verify-otp', async (req, res) => {
   const { email, otp } = req.body;  
   try {
-    // Check if email and otp are provided
     if (!email || !otp) {
       return res.status(400).json({ message: 'Email and OTP are required.' });
     }
     console.log(req.body);
-
     const user = await User.findOne({
       email,
-      resetToken: otp, // Assuming this is how you store the OTP
-      resetTokenExpires: { $gt: Date.now() } // Check if OTP is still valid
+      resetToken: otp, 
+      resetTokenExpires: { $gt: Date.now() } 
     });
     if (!user) {
       return res.status(400).json({ message: 'Invalid or expired OTP.' });
     }
-
-    // OTP is valid; you can reset the password here or send a success response
+    
     res.status(200).json({ message: 'OTP is valid. You can reset your password.' });
   } catch (error) {
     console.error('Error verifying OTP:', error);
     res.status(500).json({ message: 'Error verifying OTP.' });
   }
 });
-
-
 
 module.exports = router;

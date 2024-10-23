@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "./CSS/BackgroundImage.css"
+import "./CSS/BackgroundImage.css";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -49,7 +49,7 @@ export default function SignUp() {
         }, 2000);
       }
     } catch (error) {
-      if (error.response ) {
+      if (error.response) {
         setErrorMessage(error.response.data.error); // Set the error message to display
       } else {
         setErrorMessage('An error occurred during sign up. Please try again.');
@@ -58,15 +58,15 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen Image bg-gray-200 flex flex-col justify-center sm:py-12">
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="relative px-4 py-10 bg-white shadow-lg rounded-3xl sm:p-20 animate-fade-in">
+    <div className="bg-[#051622] min-h-screen flex flex-col justify-center py-12 transition duration-300 ease-in-out">
+      <div className="relative py-3 sm:max-w-xl mx-auto">
+        <div className="relative px-4 py-10 bg-[#deb992] shadow-lg rounded-3xl sm:p-20 animate-fade-in">
           <div className="max-w-md mx-auto">
-            <div className="text-center font-semibold text-xl mb-6 animate-slide-down">Sign Up</div>
+            <div className="text-center font-semibold text-2xl mb-6 text-[#051622] animate-slide-down">Sign Up</div>
 
             {/* Error message display */}
             {errorMessage && (
-              <div className="mb-4 text-red-500 text-center">{errorMessage}</div>
+              <div className="mb-4 text-[#1ba098] text-center">{errorMessage}</div>
             )}
 
             {/* Success message display */}
@@ -77,62 +77,62 @@ export default function SignUp() {
             <form>
               <div className="grid grid-cols-2 gap-5">
                 <div className="mb-5">
-                  <label className="block text-sm font-medium text-gray-700">First Name</label>
+                  <label className="block text-sm font-medium text-[#051622]">First Name</label>
                   <input
                     type="text"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                    className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1ba098] focus:border-[#1ba098]"
                     placeholder="Enter your first name"
                   />
                 </div>
                 <div className="mb-5">
-                  <label className="block text-sm font-medium text-gray-700">Last Name</label>
+                  <label className="block text-sm font-medium text-[#051622]">Last Name</label>
                   <input
                     type="text"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                    className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1ba098] focus:border-[#1ba098]"
                     placeholder="Enter your last name"
                   />
                 </div>
               </div>
               <div className="mb-5">
-                <label className="block text-sm font-medium text-gray-700">Email</label>
+                <label className="block text-sm font-medium text-[#051622]">Email</label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                  className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1ba098] focus:border-[#1ba098]"
                   placeholder="Enter your email"
                 />
               </div>
               <div className="mb-5">
-                <label className="block text-sm font-medium text-gray-700">Password</label>
+                <label className="block text-sm font-medium text-[#051622]">Password</label>
                 <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                  className="mt-1 px-4 py-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-[#1ba098] focus:border-[#1ba098]"
                   placeholder="Enter your password"
                 />
               </div>
               <button
                 onClick={handleSubmit}
                 type="submit"
-                className="w-full bg-teal-500 text-white py-2 px-4 rounded-md shadow hover:bg-teal-600 transition-transform duration-300 hover:scale-105"
+                className="w-full bg-[#232628] text-[#1ba098] py-2 px-4 rounded-md shadow hover:bg-[#101212] transition-transform duration-300 hover:scale-105"
               >
                 Sign Up
               </button>
             </form>
             <div className="mt-6 text-center">
-              <p className="text-sm">
-                Already have an account ?
-                <button onClick={handleLogin} className="text-teal-500 hover:underline"> &nbsp; Login</button>
+              <p className="text-sm text-[#051622]">
+                Already have an account?
+                <button onClick={handleLogin} className="text-[#1ba098] hover:underline">&nbsp; Login</button>
               </p>
             </div>
           </div>
