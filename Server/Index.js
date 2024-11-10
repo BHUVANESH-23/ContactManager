@@ -12,6 +12,8 @@ const contact = require('./routes/contact.js');
 const forgotPass = require('./routes/forgotPass.js');
 const resetPass = require('./routes/resetPass.js');
 const googleContacts = require('./routes/googleContact.js')
+const del = require('./routes/delete.js')
+const mail = require('./routes/mail.js')
 
 require('dotenv').config();
 
@@ -31,6 +33,8 @@ app.use('/api/',protectedRoute);
 app.use('/api/forgot-password',forgotPass)
 app.use('/api/reset-password',resetPass)
 app.use('/api/google-contacts', googleContacts);
+app.use('/api/del',del)
+app.use('/api/send-mail',mail)
 
 
 
