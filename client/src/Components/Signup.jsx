@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "./CSS/BackgroundImage.css";
+// import "./CSS/BackgroundImage.css";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
