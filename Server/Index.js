@@ -18,7 +18,9 @@ const mail = require('./routes/mail.js')
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  exposedHeaders:"*"
+}));
 app.use(bodyParser.json());
 
 mongoose.connect('mongodb+srv://Bhuvanesh:Bhuv1%4023o6@cluster0.gs8k4.mongodb.net/')

@@ -1,6 +1,6 @@
 // routes/protected.js
 const express = require('express');
-const verifyToken = require('../middleware/verifyToken');
+const verifyToken = require('../MiddleWare/verifyToken');
 
 const router = express.Router();
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FaGoogle } from "react-icons/fa";
 
 const Home = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState([]); // Initial state for contacts
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -13,15 +13,33 @@ const Home = () => {
     email: '',
     userMail: ''
   });
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
   const [message, setMessage] = useState(''); // Initialize as an empty string
+  const [contactList, setContactList] = useState(''); // Initialize empty contactList
 
   useEffect(() => {
     const usermail = localStorage.getItem('userEmail');
-    if (usermail) {
-      setFormData((prevData) => ({ ...prevData, userMail: usermail }));
-    }
-  }, []);
+
+    const fetchContacts = async () => {
+      const userMail = localStorage.getItem('userEmail');
+
+      if (usermail) {
+        setFormData((prevData) => ({ ...prevData, userMail: usermail }));
+      }
+
+      try {
+        const response = await axios.get('http://localhost:5000/api/contact', {
+          headers: { userMail }
+        });
+        setContactList(response.data); // Set the fetched contacts into state
+        setContacts(response.data); // Initialize the contacts list
+      } catch (error) {
+        console.error('Error fetching contacts:', error);
+      }
+    };
+
+    fetchContacts(); // Invoke the function to fetch contacts
+  }, []); // Only run once on mount
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -47,7 +65,7 @@ const Home = () => {
       if (response.status === 201) {
         setMessage('Contact saved successfully!'); // Set success message
       }
-      setContacts([...contacts, { ...formData, id: response.data.id }]);
+      setContacts([...contacts, { ...formData, id: response.data.id }]); // Add new contact to list
       setFormData({
         id: '',
         name: '',
@@ -67,6 +85,13 @@ const Home = () => {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
+  // Function to filter contacts based on search term
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    contact.phoneNumber.includes(searchTerm)
+  );
 
   return (
     <div className="bg-[#051622] min-h-screen flex flex-col items-center transition duration-300 ease-in-out py-5">
@@ -148,12 +173,28 @@ const Home = () => {
             </button>
           </form>
         </div>
+
+        {/* Only display filtered contacts when there is a search term */}
+        {searchTerm && (
+          <div className="mt-6">
+            {filteredContacts.length > 0 ? ( 
+              <ul className="list-none">
+                {filteredContacts.map((contact) => (
+                  <li key={contact.id} className="p-3 bg-[#deb992] mb-3 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold">{contact.name}</h3>
+                    <p>{contact.phoneNumber}</p>
+                    <p>{contact.email}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-[#deb992]">No contacts found.</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default Home;
-
-
-// setFormData({ id: '', name: '', phoneNumber: '', email: '' });
