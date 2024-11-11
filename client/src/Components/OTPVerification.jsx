@@ -14,7 +14,7 @@ const OTPVerification = () => {
     setError(''); // Clear previous errors
 
     try {
-      const response = await axios.post('http://localhost:5000/api/forgot-password/verify-otp', { email, otp });
+      const response = await axios.post('https://contactmanager-yvwy.onrender.com/api/forgot-password/verify-otp', { email, otp });
       console.log(response.data);
       // If OTP is valid, navigate to the reset password page
       navigate(`/reset-password?token=${otp}`); // Use the OTP as the token

@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = 'http://localhost:5000/api/google-contacts/callback';
+const REDIRECT_URI = 'https://contactmanager-yvwy.onrender.com/api/google-contacts/callback';
 
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 

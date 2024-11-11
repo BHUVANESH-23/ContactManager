@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       // Send a request to send OTP to the email
-      const res = await axios.post('http://localhost:5000/api/forgot-password', { email });
+      const res = await axios.post('https://contactmanager-yvwy.onrender.com/api/forgot-password', { email });
       // Set success message
       setMessage('If this email exists, an OTP will be sent to your email.');
 

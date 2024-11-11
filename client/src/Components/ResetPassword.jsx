@@ -21,7 +21,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/api/reset-password', { token, password: newPassword });
+      const res = await axios.post('https://contactmanager-yvwy.onrender.com/api/reset-password', { token, password: newPassword });
       setMessage('Password reset successfully.');
 
       setError('');

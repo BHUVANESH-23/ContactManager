@@ -28,7 +28,7 @@ const Home = () => {
       }
 
       try {
-        const response = await axios.get('http://localhost:5000/api/contact', {
+        const response = await axios.get('https://contactmanager-yvwy.onrender.com/api/contact', {
           headers: { userMail }
         });
         setContactList(response.data); // Set the fetched contacts into state
@@ -53,7 +53,7 @@ const Home = () => {
       console.error('User email not found in localStorage.');
       return;
     }
-    window.location.href = `http://localhost:5000/api/google-contacts?userMail=${encodeURIComponent(userMail)}`;
+    window.location.href = `https://contactmanager-yvwy.onrender.com/api/google-contacts?userMail=${encodeURIComponent(userMail)}`;
   };
 
   const handleSubmit = async (e) => {
@@ -61,7 +61,7 @@ const Home = () => {
     console.log(formData);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/contact', formData);
+      const response = await axios.post('https://contactmanager-yvwy.onrender.com/api/contact', formData);
       if (response.status === 201) {
         setMessage('Contact saved successfully!'); // Set success message
       }

@@ -28,7 +28,7 @@ const SavedContacts = () => {
     const fetchContacts = async () => {
       const userMail = localStorage.getItem('userEmail');
       try {
-        const response = await axios.get('http://localhost:5000/api/contact', {
+        const response = await axios.get('https://contactmanager-yvwy.onrender.com/api/contact', {
           headers: { userMail }
         });
         setContacts(response.data);
@@ -71,7 +71,7 @@ const SavedContacts = () => {
     formData.append('body', body);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/send-mail', formData, {
+      const response = await axios.post('https://contactmanager-yvwy.onrender.com/api/send-mail', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Contacts sent successfully!');
@@ -114,7 +114,7 @@ const SavedContacts = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/contact/${editingContactId}`, editedContact);
+      await axios.put(`https://contactmanager-yvwy.onrender.com/api/contact/${editingContactId}`, editedContact);
       setContacts((prevContacts) => prevContacts.map((contact) =>
         contact._id === editingContactId ? editedContact : contact
       ));
@@ -147,7 +147,7 @@ const SavedContacts = () => {
 
     try {
       // Delete selected contacts
-      await Promise.all(selectedContacts.map((id) => axios.delete(`http://localhost:5000/api/contact/${id}`)));
+      await Promise.all(selectedContacts.map((id) => axios.delete(`https://contactmanager-yvwy.onrender.com/api/contact/${id}`)));
       // Remove deleted contacts from state
       setContacts((prevContacts) => prevContacts.filter(contact => !selectedContacts.includes(contact._id)));
       setSelectedContacts([]); // Reset selected contacts after deletion
@@ -177,7 +177,7 @@ const SavedContacts = () => {
       }
 
       // Send delete request with all selected contact IDs
-      await axios.delete('http://localhost:5000/api/del', {
+      await axios.delete('https://contactmanager-yvwy.onrender.com/api/del', {
         headers: {
           'usermail': userMail
         },

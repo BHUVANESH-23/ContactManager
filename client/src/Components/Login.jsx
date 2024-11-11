@@ -24,7 +24,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/login", input);
+      const res = await axios.post("https://contactmanager-yvwy.onrender.com/api/login", input);
       if (res.status === 200) {
         // Store both access token and refresh token
         localStorage.setItem('token', res.data.accessToken);

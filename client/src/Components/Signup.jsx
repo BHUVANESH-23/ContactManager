@@ -39,7 +39,7 @@ export default function SignUp() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/signup', formData);
+      const response = await axios.post('https://contactmanager-yvwy.onrender.com/api/signup', formData);
       console.log(response.data.message);
 
       if (response.status === 201) {

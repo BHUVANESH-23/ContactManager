@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create Axios instance
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000', // Replace with your backend URL
+  baseURL: 'https://contactmanager-yvwy.onrender.com', // Replace with your backend URL
 });
 
 // Request interceptor to add Authorization header
@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
       const refreshToken = localStorage.getItem('refreshToken');
 
       try {
-        const res = await axios.post('http://localhost:5000/api/login/refresh-token', { refreshToken });
+        const res = await axios.post('https://contactmanager-yvwy.onrender.com/api/login/refresh-token', { refreshToken });
         if (res.status === 200) {
           const newAccessToken = res.data.accessToken;
           localStorage.setItem('token', newAccessToken); // Save the new token
