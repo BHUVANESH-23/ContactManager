@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const User = require('./Models/User.js'); // Ensure the path to the User model is correct
+
 
 const login = require('./routes/login.js');
 const signUp = require('./routes/signUp.js');
@@ -15,6 +17,7 @@ const googleContacts = require('./routes/googleContact.js')
 const del = require('./routes/delete.js')
 const mail = require('./routes/mail.js')
 
+
 require('dotenv').config();
 
 const app = express();
@@ -22,6 +25,7 @@ app.use(cors({
   exposedHeaders:"*"
 }));
 app.use(bodyParser.json());
+
 
 mongoose.connect('mongodb+srv://Bhuvanesh:Bhuv1%4023o6@cluster0.gs8k4.mongodb.net/')
 .then(() => console.log('MongoDB connected'))
@@ -38,6 +42,18 @@ app.use('/api/google-contacts', googleContacts);
 app.use('/api/del',del)
 app.use('/api/send-mail',mail)
 
+
+
+
+app.get('/api/signup', async (req, res) => {
+  
+  try {
+    const users = await User.find({}, 'firstName lastName email'); // Adjust fields as needed
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching users' });
+  }
+});
 
 
 const PORT = 5000;

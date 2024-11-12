@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddContact = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,8 @@ const AddContact = () => {
     userMail: localStorage.getItem('userEmail') || ''
   });
   const [message, setMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -21,6 +24,8 @@ const AddContact = () => {
       const response = await axios.post('https://contactmanager-yvwy.onrender.com/api/contact', formData);
       if (response.status === 201) {
         setMessage('Contact saved successfully!');
+        navigate("/");
+        
       }
       setFormData({ name: '', phoneNumber: '', email: '', userMail: formData.userMail });
     } catch (error) {
