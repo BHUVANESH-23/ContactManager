@@ -13,8 +13,8 @@ const SavedContacts = () => {
     email: ''
   });
 
-  const [selectedContacts, setSelectedContacts] = useState([]); // For tracking selected contacts
-  const [isDeleteMode, setIsDeleteMode] = useState(false); // For delete mode
+  const [selectedContacts, setSelectedContacts] = useState([]);
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [contactInfoArray, setContactInfoArray] = useState([]);
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('Shared Contacts');
@@ -55,7 +55,7 @@ const SavedContacts = () => {
   };
 
   const handleShare = async (e) => {
-    e.preventDefault(); // Prevent form submission default behavior
+    e.preventDefault();
 
     setShare((prev) => !prev)
 
@@ -80,7 +80,7 @@ const SavedContacts = () => {
       setBody('')
     } catch (error) {
       console.error('Error sharing contacts:', error);
-      // alert('Failed to send contacts.');
+
     }
   };
 
@@ -127,16 +127,16 @@ const SavedContacts = () => {
   const handleSelectContact = (id) => {
     setSelectedContacts((prevSelected) => {
       if (prevSelected.includes(id)) {
-        return prevSelected.filter(selectedId => selectedId !== id); // Deselect
+        return prevSelected.filter(selectedId => selectedId !== id);
       } else {
-        return [...prevSelected, id]; // Select
+        return [...prevSelected, id];
       }
     });
   };
 
   const handleDeleteModeToggle = () => {
-    setIsDeleteMode((prevMode) => !prevMode);  // Toggle delete mode
-    setSelectedContacts([]); // Reset selected contacts when toggling delete mode
+    setIsDeleteMode((prevMode) => !prevMode);
+    setSelectedContacts([]);
   };
 
   const handleDeleteSelected = async () => {
@@ -146,12 +146,12 @@ const SavedContacts = () => {
     }
 
     try {
-      // Delete selected contacts
+
       await Promise.all(selectedContacts.map((id) => axios.delete(`https://contactmanager-yvwy.onrender.com/api/contact/${id}`)));
-      // Remove deleted contacts from state
+
       setContacts((prevContacts) => prevContacts.filter(contact => !selectedContacts.includes(contact._id)));
-      setSelectedContacts([]); // Reset selected contacts after deletion
-      setIsDeleteMode(false); // Exit delete mode 
+      setSelectedContacts([]);
+      setIsDeleteMode(false);
     } catch (error) {
       console.error("Error deleting selected contacts:", error);
     }
@@ -162,13 +162,13 @@ const SavedContacts = () => {
     if (!confirmation) return;
 
     try {
-      const userMail = localStorage.getItem('userEmail'); // Retrieve userEmail from localStorage
+      const userMail = localStorage.getItem('userEmail');
       if (!userMail) {
         alert('User email is missing!');
         return;
       }
 
-      // Prepare an array of all contact IDs to delete (if you want to use the same format as handleDeleteSelected)
+
       const allContactIds = contacts.map(contact => contact._id);
 
       if (allContactIds.length === 0) {
@@ -176,19 +176,19 @@ const SavedContacts = () => {
         return;
       }
 
-      // Send delete request with all selected contact IDs
+
       await axios.delete('https://contactmanager-yvwy.onrender.com/api/del', {
         headers: {
           'usermail': userMail
         },
-        data: { ids: allContactIds } // Sending the array of contact IDs to delete
+        data: { ids: allContactIds }
       });
 
-      // Clear contacts in frontend after successful deletion
+
       setContacts([]);
-      setIsDeleteMode(false); // Exit delete mode
+      setIsDeleteMode(false);
       alert("All contacts have been deleted!");
-      // location.reload()
+
     } catch (error) {
       console.error("Error deleting all contacts:", error);
       alert("Failed to delete all contacts.");

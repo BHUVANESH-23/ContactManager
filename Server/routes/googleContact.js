@@ -58,7 +58,7 @@ router.get('/callback', async (req, res) => {
     await Contact.insertMany(contactsToSave);
 
     // Redirect back to the frontend or return a success message
-    res.redirect('http://localhost:5173/savedContacts');  // Redirect user to saved contacts page
+    res.redirect('https://contact-manager-fawn-phi.vercel.app//savedContacts');  // Redirect user to saved contacts page
   } catch (error) {
     console.error('Error retrieving and saving Google contacts:', error);
     res.status(500).send('Error retrieving and saving Google contacts');
