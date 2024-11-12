@@ -20,9 +20,14 @@ const SavedContacts = () => {
   const [subject, setSubject] = useState('Shared Contacts');
   const [body, setBody] = useState('Here are the shared contacts:');
   const [share, setShare] = useState(false)
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editableContact, setEditableContact] = useState(null);
 
 
-  const navigator = useNavigate();
+
+
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -53,6 +58,16 @@ const SavedContacts = () => {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
+
+  const handleEditModeToggle = (contact) => {
+    setIsEditMode(!isEditMode);
+    if (!isEditMode) {
+      setEditableContact(contact);  // Set the contact to be edited
+    } else {
+      setEditableContact(null);  // Clear editable contact when exiting edit mode
+    }
+  };
+
 
   const handleShare = async (e) => {
     e.preventDefault();
@@ -85,9 +100,9 @@ const SavedContacts = () => {
   };
 
   const handleEditClick = (contact) => {
-    setEditingContactId(contact._id);
-    setEditedContact(contact);
+    navigate(`/edit-contact/${contact._id}`, { state: { contact } });
   };
+  
 
   const handleDownloadContacts = () => {
     const contactText = contactInfoArray.map(contact => {
@@ -111,18 +126,32 @@ const SavedContacts = () => {
     }));
   };
 
-  const handleEditSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(`https://contactmanager-yvwy.onrender.com/api/contact/${editingContactId}`, editedContact);
-      setContacts((prevContacts) => prevContacts.map((contact) =>
-        contact._id === editingContactId ? editedContact : contact
-      ));
-      setEditingContactId(null);
-    } catch (error) {
-      console.error('Error updating contact:', error);
-    }
-  };
+ const handleEditSubmit = async (e) => {
+  e.preventDefault();
+
+  // Check if editableContact is null or doesn't have _id
+  if (!editableContact || !editableContact._id) {
+    console.error('Invalid contact data for update');
+    return;
+  }
+
+  try {
+    await axios.put(
+      `https://contactmanager-yvwy.onrender.com/api/contact/${editableContact._id}`,
+      editableContact
+    );
+    setContacts((prevContacts) =>
+      prevContacts.map((contact) =>
+        contact._id === editableContact._id ? editableContact : contact
+      )
+    );
+    setIsEditMode(false);
+    setEditableContact(null);  // Reset editableContact after the update
+  } catch (error) {
+    console.error('Error updating contact:', error);
+  }
+};
+
 
   const handleSelectContact = (id) => {
     setSelectedContacts((prevSelected) => {
@@ -185,8 +214,10 @@ const SavedContacts = () => {
       });
 
 
+
       setContacts([]);
       setIsDeleteMode(false);
+      window.location.reload();
       alert("All contacts have been deleted!");
 
     } catch (error) {
@@ -199,7 +230,7 @@ const SavedContacts = () => {
     <div className="bg-[#051622] min-h-screen flex flex-col items-center py-5">
       <header className="w-full bg-[#051622] py-4 fixed top-0 left-0 z-10 shadow-lg">
         <nav className="flex justify-between items-center max-w-4xl mx-auto px-5">
-          <div className="text-2xl font-bold text-[#deb992] cursor-pointer" onClick={() => navigator('/')}>
+          <div className="text-2xl font-bold text-[#deb992] cursor-pointer" onClick={() => navigate('/')}>
             Contact List
           </div>
 
@@ -218,6 +249,7 @@ const SavedContacts = () => {
           ) : (
             <>
               <div>
+                
                 <button onClick={handleDeleteModeToggle} className="bg-[#deb992] text-[#051622] mr-5 px-3 py-1 rounded-sm shadow-md hover:bg-[#c8a063]">
                   Delete Contacts
                 </button>
@@ -233,6 +265,7 @@ const SavedContacts = () => {
           )}
         </nav>
       </header>
+
 
       {share && <div className="bg-[#deb992] p-5 rounded-lg shadow-md mt-16">
         <form onSubmit={handleShare} >
@@ -285,16 +318,17 @@ const SavedContacts = () => {
           </div>
         </form>
       </div>}
+     
+
 
       <div className="container mx-auto px-5 py-5 mt-20 max-w-4xl">
         <h2 className="text-xl font-semibold mb-4 text-[#deb992]">Saved Contacts</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {contacts.map(contact => (
             <div
-              key={contact._id}
-              className={`bg-[#deb992] p-4 rounded-lg shadow-md hover:shadow-lg ${isDeleteMode && selectedContacts.includes(contact._id) ? 'border-2 border-red-600' : ''
-                }`}
-              onClick={() => handleSelectContact(contact._id)}
+            key={contact._id}
+            className={`bg-[#deb992] p-4 rounded-lg shadow-md hover:shadow-lg ${isDeleteMode && selectedContacts.includes(contact._id) ? 'border-2 border-red-600' : ''}`}
+            onClick={() => handleSelectContact(contact._id)} // Change here to toggle selection
             >
               <div className="flex justify-between">
                 <div>
@@ -306,7 +340,10 @@ const SavedContacts = () => {
                 <div className="flex">
                   {isDeleteMode ? (
                     <button
-                      onClick={() => handleSelectContact(contact._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();  // Prevent the card click event from firing
+                        handleSelectContact(contact._id);
+                      }}
                       className={`text-red-600 ${selectedContacts.includes(contact._id) ? 'font-bold' : ''}`}
                     >
                       {selectedContacts.includes(contact._id) ? 'Deselect' : 'Select'}
@@ -314,7 +351,7 @@ const SavedContacts = () => {
                   ) : (
                     <button
                       onClick={() => handleEditClick(contact)}
-                      className="text-[#deb992] hover:text-[#051622] ml-2"
+                      className="text-[#051622]  ml-3"
                     >
                       <CiEdit size={20} />
                     </button>
@@ -322,48 +359,14 @@ const SavedContacts = () => {
                 </div>
               </div>
 
-              {editingContactId === contact._id && (
-                <div className="mt-4">
-                  <form onSubmit={handleEditSubmit}>
-                    <input
-                      type="text"
-                      name="name"
-                      value={editedContact.name}
-                      onChange={handleInputChange}
-                      placeholder="Name"
-                      className="w-full mb-2 p-2 rounded-md"
-                    />
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      value={editedContact.phoneNumber}
-                      onChange={handleInputChange}
-                      placeholder="Phone Number"
-                      className="w-full mb-2 p-2 rounded-md"
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      value={editedContact.email}
-                      onChange={handleInputChange}
-                      placeholder="Email"
-                      className="w-full mb-2 p-2 rounded-md"
-                    />
-                    <button
-                      type="submit"
-                      className="bg-[#deb992] text-[#051622] px-3 py-1 rounded-sm shadow-md hover:bg-[#c8a063] mt-2"
-                    >
-                      Save Changes
-                    </button>
-                  </form>
-                </div>
-              )}
+              
             </div>
+
           ))}
         </div>
       </div>
 
-      {/* Share Modal */}
+
 
 
 
@@ -371,4 +374,55 @@ const SavedContacts = () => {
   );
 };
 
+{/* {share && <div className="bg-[#deb992] p-5 rounded-lg shadow-md mt-16">
+  <form onSubmit={handleShare} >
+    <div className="m-4">
+      <label htmlFor="email" className="text-[#deb992]">Recipient Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value={email}
+        onChange={handleEmailChange}
+        className="mt-1 p-2 border rounded w-full"
+        required
+        placeholder="Enter the recipient's email"
+      />
+    </div>
+
+    <div className="mb-4">
+      <label htmlFor="subject" className="text-[#deb992]">Subject:</label>
+      <input
+        type="text"
+        id="subject"
+        name="subject"
+        value={subject}
+        onChange={(e) => setSubject(e.target.value)}
+        className="mt-1 p-2 border rounded w-full"
+        placeholder="Enter the subject of the email"
+      />
+    </div>
+
+    <div className="mb-4">
+      <label htmlFor="body" className="text-[#deb992]">Body:</label>
+      <textarea
+        id="body"
+        name="body"
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
+        className="mt-1 p-2 border rounded w-full"
+        placeholder="Enter the body of the email"
+      />
+    </div>
+
+    <div className="flex justify-between">
+      <button
+        type="submit"
+        className="bg-[#deb992] text-[#051622] px-3 py-1 rounded-sm shadow-md hover:bg-[#c8a063]"
+      >
+        Share
+      </button>
+    </div>
+  </form>
+</div>} */}
 export default SavedContacts;

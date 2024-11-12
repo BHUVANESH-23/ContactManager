@@ -9,6 +9,8 @@ import ProtectedRoute from './Components/ProtectedRoute';
 import SavedContacts from './Components/SavedContacts';
 import ResetPassword from './Components/ResetPassword';
 import OTPVerification from './Components/OTPVerification';
+import AddContact from './Components/AddContacts';
+import EditContact from './Components/EditContact';
 
 function App() {
   useEffect(() => {
@@ -39,6 +41,9 @@ function App() {
         <Route path="/otp-verification" element={<OTPVerification />} />
         <Route path="/" element={<ProtectedRoute element={<Home />} />} />
         <Route path="/savedContacts" element={<ProtectedRoute element={<SavedContacts />} />} />
+        <Route path="/addContact" element={<AddContact />} />
+        <Route path="/edit-contact/:id" element={<EditContact />} />
+
       </Routes>
     </BrowserRouter>
   );
