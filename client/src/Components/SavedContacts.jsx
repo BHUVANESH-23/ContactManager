@@ -341,45 +341,55 @@ const SavedContacts = () => {
         {loading ? (
           <div className="text-center text-2xl text-[#deb992]">Loading...</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {contacts.map((contact) => (
-              <div
-                key={contact._id}
-                className={`bg-[#deb992] p-4 rounded-lg shadow-md hover:shadow-lg ${isDeleteMode && selectedContacts.includes(contact._id) ? 'border-2 border-red-600' : ''
-                  }`}
-                onClick={() => handleSelectContact(contact._id)}
-              >
-                <div className="flex justify-between">
-                  <div>
-                    <h3 className="text-lg md:text-xl font-semibold">{contact.name}</h3>
-                    <p className="text-sm md:text-base text-gray-700">Phone: {contact.phoneNumber}</p>
-                    <p className="text-sm md:text-base text-gray-700">Email: {contact.email}</p>
-                  </div>
+          <div>
+            {
+              contacts.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {contacts.map((contact) => (
+                    <div
+                      key={contact._id}
+                      className={`bg-[#deb992] p-4 rounded-lg shadow-md hover:shadow-lg ${isDeleteMode && selectedContacts.includes(contact._id) ? 'border-2 border-red-600' : ''}`}
+                      onClick={() => handleSelectContact(contact._id)}
+                    >
+                      <div className="flex justify-between">
+                        <div>
+                          <h3 className="text-lg md:text-xl font-semibold">{contact.name}</h3>
+                          <p className="text-sm md:text-base text-gray-700">Phone: {contact.phoneNumber}</p>
+                          <p className="text-sm md:text-base text-gray-700">Email: {contact.email}</p>
+                        </div>
 
-                  <div className="flex">
-                    {isDeleteMode ? (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSelectContact(contact._id);
-                        }}
-                        className={`text-red-600 ${selectedContacts.includes(contact._id) ? 'font-bold' : ''}`}
-                      >
-                        {selectedContacts.includes(contact._id) ? 'Deselect' : 'Select'}
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleEditClick(contact)}
-                        className="text-[#051622] ml-3"
-                      >
-                        <CiEdit size={20} />
-                      </button>
-                    )}
-                  </div>
+                        <div className="flex">
+                          {isDeleteMode ? (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent the parent onClick
+                                handleSelectContact(contact._id);
+                              }}
+                              className={`text-red-600 ${selectedContacts.includes(contact._id) ? 'font-bold' : ''}`}
+                              aria-label={`Select ${selectedContacts.includes(contact._id) ? 'Deselect' : 'Select'} contact`}
+                            >
+                              {selectedContacts.includes(contact._id) ? 'Deselect' : 'Select'}
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleEditClick(contact)}
+                              className="text-[#051622] ml-3"
+                              aria-label={`Edit ${contact.name}`}
+                            >
+                              <CiEdit size={20} />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            ))}
+              ) : (
+                <div className='text-center text-2xl text-[#deb992]'>No contacts found</div>
+              )
+            }
           </div>
+
         )}
       </div>
 
