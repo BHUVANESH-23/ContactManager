@@ -148,7 +148,7 @@ const Home = () => {
         <div className='text-[#deb992] text-lg md:text-xl mt-20'>Loading...</div>
       ) : (
         <>
-          {welcomeMessage && <div className='text-[#deb992] text-lg md:text-xl mt-20'>{welcomeMessage}</div>}
+          {welcomeMessage && <div className='text-[#deb992] text-lg md:text-xl mt-24'>{welcomeMessage}</div>}
 
           <div className="container mx-auto px-4 md:px-6 lg:px-8 py-5 mt-12 max-w-lg md:max-w-2xl lg:max-w-4xl">
             {message && <div className='text-[#1ba098] mb-4 text-sm md:text-base'>{message}</div>}
