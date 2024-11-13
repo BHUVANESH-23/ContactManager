@@ -1,8 +1,8 @@
-// routes/googleContacts.js
+
 const express = require('express');
 const { google } = require('googleapis');
 const router = express.Router();
-const Contact = require('../Models/contact');  // Import the Contact model
+const Contact = require('../Models/contact');  
 require('dotenv').config();
 
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -11,7 +11,7 @@ const REDIRECT_URI = 'https://contactmanager-yvwy.onrender.com/api/google-contac
 
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
-// Step 1: Request Google Contacts with userMail in query params
+
 router.get('/', (req, res) => {
   const userMail = req.query.userMail;
 
@@ -22,16 +22,16 @@ router.get('/', (req, res) => {
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: ['https://www.googleapis.com/auth/contacts.readonly'],
-    state: encodeURIComponent(userMail),  // Store userMail in the state parameter
+    state: encodeURIComponent(userMail),  
   });
 
   res.redirect(authUrl);
 });
 
-// Step 2: Handle Google Callback and Fetch Contacts
+
 router.get('/callback', async (req, res) => {
   const code = req.query.code;
-  const userMail = decodeURIComponent(req.query.state); // Retrieve userMail from the state parameter
+  const userMail = decodeURIComponent(req.query.state); 
 
   try {
     const { tokens } = await oauth2Client.getToken(code);
@@ -46,19 +46,19 @@ router.get('/callback', async (req, res) => {
 
     const connections = response.data.connections || [];
 
-    // Extract the contacts and format them for the database
+    
     const contactsToSave = connections.map(person => ({
       name: person.names ? person.names[0].displayName : 'No Name',
       email: person.emailAddresses ? person.emailAddresses[0].value : 'No Email',
       phoneNumber: person.phoneNumbers ? person.phoneNumbers[0].value : 'No Phone Number',
-      userMail,  // Attach the userMail retrieved from the state
+      userMail,  
     }));
 
-    // Save the contacts to MongoDB
+    
     await Contact.insertMany(contactsToSave);
 
-    // Redirect back to the frontend or return a success message
-    res.redirect('https://contact-manager-fawn-phi.vercel.app//savedContacts');  // Redirect user to saved contacts page
+    
+    res.redirect('https://contact-manager-fawn-phi.vercel.app//savedContacts');  
   } catch (error) {
     console.error('Error retrieving and saving Google contacts:', error);
     res.status(500).send('Error retrieving and saving Google contacts');

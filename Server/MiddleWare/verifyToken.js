@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
   }
 
   try {
-    token = token.split(' ')[1]; // Remove 'Bearer' from token
+    token = token.split(' ')[1]; 
     let jwtSecretKey = process.env.JWT_SECRET_KEY;
     const verified = jwt.verify(token, jwtSecretKey);
     req.user = verified;

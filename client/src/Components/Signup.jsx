@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import "./CSS/BackgroundImage.css";
+
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -10,8 +10,8 @@ export default function SignUp() {
     email: '',
     password: ''
   });
-  const [errorMessage, setErrorMessage] = useState(''); // State to handle error message
-  const [successMessage, setSuccessMessage] = useState(''); // State for success message
+  const [errorMessage, setErrorMessage] = useState(''); 
+  const [successMessage, setSuccessMessage] = useState(''); 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,17 +22,17 @@ export default function SignUp() {
     navigate('/login');
   };
 
-  // Password validation function (example)
+  
   const validatePassword = (password) => {
-    return password.length >= 8; // Minimum 8 characters
+    return password.length >= 8; 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(''); // Reset error message before submitting
-    setSuccessMessage(''); // Reset success message before submitting
+    setErrorMessage(''); 
+    setSuccessMessage(''); 
 
-    // Validate password before making request
+    
     if (!validatePassword(formData.password)) {
       setErrorMessage('Password must be at least 8 characters long.');
       return;
@@ -45,12 +45,12 @@ export default function SignUp() {
       if (response.status === 201) {
         setSuccessMessage('Account created successfully! Redirecting to login...');
         setTimeout(() => {
-          navigate('/login'); // Redirect to login page after success message
+          navigate('/login'); 
         }, 2000);
       }
     } catch (error) {
       if (error.response) {
-        setErrorMessage(error.response.data.error); // Set the error message to display
+        setErrorMessage(error.response.data.error); 
       } else {
         setErrorMessage('An error occurred during sign up. Please try again.');
       }
@@ -64,12 +64,12 @@ export default function SignUp() {
           <div className="max-w-md mx-auto">
             <div className="text-center font-semibold text-2xl mb-6 text-[#051622] animate-slide-down">Sign Up</div>
 
-            {/* Error message display */}
+            
             {errorMessage && (
               <div className="mb-4 text-[#1ba098] text-center">{errorMessage}</div>
             )}
 
-            {/* Success message display */}
+            
             {successMessage && (
               <div className="mb-4 text-green-500 text-center">{successMessage}</div>
             )}

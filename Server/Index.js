@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const User = require('./Models/User.js'); // Ensure the path to the User model is correct
+const User = require('./Models/User.js'); 
 
 
 const login = require('./routes/login.js');
@@ -48,7 +48,7 @@ app.use('/api/send-mail',mail)
 app.get('/api/signup', async (req, res) => {
   
   try {
-    const users = await User.find({}, 'firstName lastName email'); // Adjust fields as needed
+    const users = await User.find({}, 'firstName lastName email'); 
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching users' });

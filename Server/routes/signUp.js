@@ -1,8 +1,8 @@
 const express = require('express');
-const User = require('../Models/User'); // Ensure the path to the User model is correct
+const User = require('../Models/User'); 
 const router = express.Router();
 
-// POST route for user registration
+ 
 router.post('/', async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;

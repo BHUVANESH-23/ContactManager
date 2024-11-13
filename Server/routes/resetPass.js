@@ -1,9 +1,9 @@
 const express = require('express');
-const bcrypt = require('bcrypt');  // Added bcrypt for password hashing
+const bcrypt = require('bcrypt');  
 const User = require('../Models/User');
 const router = express.Router();
 
-// GET route to serve the reset password form
+
 router.get('/', (req, res) => {
     res.send(`
     <form action="/api/reset-password" method="POST">
@@ -15,22 +15,22 @@ router.get('/', (req, res) => {
   `);
 });
 
-// POST route to handle password reset
+
 router.post('/', async (req, res) => {
     const { token, password } = req.body;
 
     try {
-        // Find the user based on the reset token and its expiration
+        
         const user = await User.findOne({ resetToken: token, resetTokenExpires: { $gt: Date.now() } });
 
         if (!user) {
             return res.status(400).json({ message: 'Invalid or expired token' });
         }
 
-        // Update the user's password directly
-        user.password = password; // Set the new password
-        user.resetToken = undefined; // Clear the reset token
-        user.resetTokenExpires = undefined; // Clear the token expiration
+        
+        user.password = password; 
+        user.resetToken = undefined; 
+        user.resetTokenExpires = undefined; 
         await user.save();
 
         res.status(200).json({ message: 'Password has been reset successfully' });

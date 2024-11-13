@@ -10,7 +10,7 @@ const Home = () => {
   const [message, setMessage] = useState('');
   const [signup, setSignup] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Home = () => {
       } catch (error) {
         console.error('Error fetching contacts:', error);
       } finally {
-        setLoading(false); // Set loading to false when data is fetched
+        setLoading(false); 
       }
     };
 
@@ -148,7 +148,7 @@ const Home = () => {
         <div className='text-[#deb992] text-lg md:text-xl mt-20'>Loading...</div>
       ) : (
         <>
-          {welcomeMessage && <div className='text-[#deb992] text-lg md:text-xl mt-24'>{welcomeMessage}</div>}
+          {welcomeMessage && <div className='text-[#deb992] text-lg md:text-xl mt-60'>{welcomeMessage}</div>}
 
           <div className="container mx-auto px-4 md:px-6 lg:px-8 py-5 mt-12 max-w-lg md:max-w-2xl lg:max-w-4xl">
             {message && <div className='text-[#1ba098] mb-4 text-sm md:text-base'>{message}</div>}

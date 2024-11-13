@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 const sendPasswordResetEmail = async (email, token, otp) => {
-  const resetLink = `https://contactmanager-yvwy.onrender.com/reset-password?token=${token}`; // The reset link with the token
+  const resetLink = `https://contactmanager-yvwy.onrender.com/reset-password?token=${token}`; 
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',

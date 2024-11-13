@@ -4,22 +4,22 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const OTPVerification = () => {
   const location = useLocation();
-  const { email } = location.state; // Retrieve email from state
+  const { email } = location.state; 
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError(''); 
 
     try {
       const response = await axios.post('https://contactmanager-yvwy.onrender.com/api/forgot-password/verify-otp', { email, otp });
       console.log(response.data);
-      // If OTP is valid, navigate to the reset password page
-      navigate(`/reset-password?token=${otp}`); // Use the OTP as the token
+      
+      navigate(`/reset-password?token=${otp}`); 
     } catch (error) {
-      // Set error message based on server response
+      
       if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
       } else {

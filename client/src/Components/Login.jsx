@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ForgotPassword from './ForgotPassword'; // Import ForgotPassword
-// import './CSS/BackgroundImage.css';
+import ForgotPassword from './ForgotPassword'; 
+
 
 const Login = () => {
   const [input, setInput] = useState({
     email: '',
     password: ''
   });
-  const [pass, setPass] = useState(false); // State for "Forgot Password"
-  const [errorMessage, setErrorMessage] = useState(''); // State for error messages
+  const [pass, setPass] = useState(false); 
+  const [errorMessage, setErrorMessage] = useState(''); 
   const navigate = useNavigate();
 
   const handleSignup = () => {
@@ -26,17 +26,17 @@ const Login = () => {
     try {
       const res = await axios.post("https://contactmanager-yvwy.onrender.com/api/login", input);
       if (res.status === 200) {
-        // Store both access token and refresh token
+        
         localStorage.setItem('token', res.data.accessToken);
         localStorage.setItem('refreshToken', res.data.refreshToken);
-        localStorage.setItem('userEmail', input.email); // Optionally store user email
+        localStorage.setItem('userEmail', input.email); 
 
-        // Navigate to the protected route (e.g., Home page)
+        
         navigate('/');
       }
     } catch (err) {
       if (err.response) {
-        // Set the error message based on the backend response
+        
         setErrorMessage(err.response.data.message);
       } else {
         console.error('Error during login:', err);
@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   if (pass) {
-    // Render ForgotPassword page if "Forgot Password" is clicked
+    
     return <ForgotPassword />;
   }
 

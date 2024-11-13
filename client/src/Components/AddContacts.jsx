@@ -20,7 +20,7 @@ const AddContact = () => {
   };
 
   const handleGoogle = (e) => {
-    e.preventDefault(); // Prevent form submission here
+    e.preventDefault(); 
     const userMail = localStorage.getItem('userEmail');
     if (!userMail) {
       console.error('User email not found in localStorage.');

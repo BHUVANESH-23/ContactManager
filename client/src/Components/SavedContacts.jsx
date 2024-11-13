@@ -66,9 +66,9 @@ const SavedContacts = () => {
   const handleEditModeToggle = (contact) => {
     setIsEditMode(!isEditMode);
     if (!isEditMode) {
-      setEditableContact(contact);  // Set the contact to be edited
+      setEditableContact(contact);  
     } else {
-      setEditableContact(null);  // Clear editable contact when exiting edit mode
+      setEditableContact(null);  
     }
   };
 
@@ -133,7 +133,7 @@ const SavedContacts = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if editableContact is null or doesn't have _id
+    
     if (!editableContact || !editableContact._id) {
       console.error('Invalid contact data for update');
       return;
@@ -150,7 +150,7 @@ const SavedContacts = () => {
         )
       );
       setIsEditMode(false);
-      setEditableContact(null);  // Reset editableContact after the update
+      setEditableContact(null);  
     } catch (error) {
       console.error('Error updating contact:', error);
     }
@@ -362,7 +362,7 @@ const SavedContacts = () => {
                           {isDeleteMode ? (
                             <button
                               onClick={(e) => {
-                                e.stopPropagation(); // Prevent the parent onClick
+                                e.stopPropagation(); 
                                 handleSelectContact(contact._id);
                               }}
                               className={`text-red-600 ${selectedContacts.includes(contact._id) ? 'font-bold' : ''}`}

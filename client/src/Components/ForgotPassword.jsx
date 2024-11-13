@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import './CSS/BackgroundImage.css';
+
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -12,12 +12,12 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send a request to send OTP to the email
+      
       const res = await axios.post('https://contactmanager-yvwy.onrender.com/api/forgot-password', { email });
-      // Set success message
+      
       setMessage('If this email exists, an OTP will be sent to your email.');
 
-      // Navigate to OTP Verification component
+      
       navigate('/otp-verification', { state: { email } });
 
       setError('');
@@ -45,7 +45,7 @@ const ForgotPassword = () => {
                   placeholder="Enter your email"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
-                  required // Make the email field required
+                  required 
                 />
               </div>
               {error && <p className="text-[#1ba098] text-sm">{error}</p>}

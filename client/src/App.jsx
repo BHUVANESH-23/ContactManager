@@ -29,7 +29,7 @@ function App() {
       }
     };
 
-    validateToken(); // Call the validation function on app load
+    validateToken(); 
   }, []);
 
   return (

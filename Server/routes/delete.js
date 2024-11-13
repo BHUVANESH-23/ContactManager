@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 router.delete('/', async (req, res) => {
-    console.log("Delete All route hit"); // Log if route is being triggered
+    console.log("Delete All route hit"); 
   
     try {
       const userMail = req.headers['usermail']; 
