@@ -80,7 +80,7 @@ const EditContact = () => {
             />
           </div>
 
-          <button type="submit" className="bg-[#deb992] text-[#051622] px-4 py-2 rounded-sm shadow-md hover:bg-[#c8a063]">Save Changes</button>
+          <button type="submit" className="bg-[#232628] hover:bg-[#101212] text-[#1ba098] px-5 py-2 rounded-lg text-sm sm:text-base md:text-lg">Save Changes</button>
         </form>
       </div>
     </div>

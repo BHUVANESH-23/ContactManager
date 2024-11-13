@@ -1,0 +1,50 @@
+
+@media (min-width: 425px) {
+  .form-container {
+    max-width: 90%; 
+    padding: 15px; 
+    
+    
+  }
+  .responsiveness {
+    display: flex;
+    flex-direction: column;
+  }
+  .marginBottom {
+    margin-bottom: 12px;
+  }
+}
+
+
+@media (min-width: 375px) {
+  .form-container {
+    max-width: 85%; 
+    padding: 10px; 
+    
+    
+  }
+  .responsiveness {
+    display: flex;
+    flex-direction: column;
+  }
+  .marginBottom {
+    margin-bottom: 12px;
+  }
+}
+
+
+@media (min-width: 320px) {
+  .form-container {
+    max-width: 80%; 
+    padding: 8px; 
+    
+    
+  }
+  .responsiveness {
+    display: flex;
+    flex-direction: column;
+  }
+  .marginBottom {
+    margin-bottom: 12px;
+  }
+}
