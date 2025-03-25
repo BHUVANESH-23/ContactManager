@@ -27,7 +27,8 @@ app.use(cors({
 app.use(bodyParser.json());
 
 
-mongoose.connect('mongodb+srv://Bhuvanesh:Bhuv1%4023o6@cluster0.gs8k4.mongodb.net/')
+mongoose.connect('mongodb+srv://Bhuvanesh:Bhuv1%4023o6@cluster0.gs8k4.mongodb.net/Contact',{
+  useNewUrlParser: true,})
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log(err));
 
